@@ -5,9 +5,9 @@ class BinarySearchTree {
     this.parent = parent;
     this.left = null;
     this.right = null;
-    if (this.left === null && this.right === null) {
-      this.root = this.key;
-    }
+  }
+  show() {
+    return console.log(this.value);
   }
   insert(key, value) {
   //if the tree is empty then this key being inserted is the root node of the tree
@@ -185,26 +185,36 @@ class BinarySearchTree {
   }
 
 
-  _isBalancedDavid(node, isLeft=false) {
-    // Base case
-    if (node === null) {
-      return true;
-    }
+  // _isBalancedDavid(node, isLeft=false) {
+  //   // Base case
+  //   if (node === null) {
+  //     return true;
+  //   }
 
-    console.log(node);
-    if (node.parent === null) {
-      this._isBalancedDavid(node.left, true);
-      this._isBalancedDavid(node.right, false);
-    }
-    if (node.parent.key > node.key && isLeft) {
-      return this._isBalancedDavid(node.left, true);
-    } else if (node.parent.key < node.key && !isLeft) {
-      return this._isBalancedDavid(node.right, false);
-    } else {
-      return false;
-    }
+  //   console.log(node);
+  //   if (node.parent === null) {
+  //     this._isBalancedDavid(node.left, true)
+  //     this._isBalancedDavid(node.right, false);
+  //   }
+  //   if (node.parent.key > node.key && isLeft) {
+  //     return this._isBalancedDavid(node.left, true)
+  //   } else if (node.parent.key < node.key && !isLeft) {
+  //     return this._isBalancedDavid(node.right, false);
+  //   } else {
+  //     return false
+  //   }
     
+  // }
+}
+
+function getRoot(bst) {
+  let node = bst;
+  let parent = bst;
+  while (parent.parent !== null) {
+    node = parent;
+    parent = parent.parent;
   }
+  return node;
 }
 
 function isItBST(bst) {
@@ -229,12 +239,13 @@ BST.insert(1, 1);
 BST.insert(4, 4);
 BST.insert(6, 6);
 BST.insert(9, 9);
-BST.left = 
-// BST.insert(2,2);
-// BST.insert(5,5);
-// BST.insert(7,7);
+BST.insert(2,2);
+BST.insert(5,5);
+BST.insert(7,7);
 // console.log(BST);
 // console.log(BST._maxDepth(BST));
-console.log(BST._isBalancedDavid(BST));
+// console.log(BST._isBalancedDavid(BST));
+// console.log(getRoot(BST));
+BST.show();
 // console.log(BST._isBalanced(BST));
 // console.log(BST);
