@@ -1,3 +1,4 @@
+/* eslint-disable strict */
 class BinarySearchTree {
   constructor(key=null, value=null, parent=null) {
     this.key = key;
@@ -184,27 +185,6 @@ class BinarySearchTree {
     }
   }
 
-
-  // _isBalancedDavid(node, isLeft=false) {
-  //   // Base case
-  //   if (node === null) {
-  //     return true;
-  //   }
-
-  //   console.log(node);
-  //   if (node.parent === null) {
-  //     this._isBalancedDavid(node.left, true)
-  //     this._isBalancedDavid(node.right, false);
-  //   }
-  //   if (node.parent.key > node.key && isLeft) {
-  //     return this._isBalancedDavid(node.left, true)
-  //   } else if (node.parent.key < node.key && !isLeft) {
-  //     return this._isBalancedDavid(node.right, false);
-  //   } else {
-  //     return false
-  //   }
-    
-  // }
 }
 
 function getRoot(bst) {
@@ -252,15 +232,39 @@ function thirdLargest(bst) {
   return returnVal.key;
 }
 
-function isBalanced(bst) {
+function isBalanced(bst, lDepth=0, rDepth=0, maxDepth=null) {
+  if (maxDepth === null) {
+    maxDepth = bst._maxDepth(bst);
+  }
+  if (bst === null) {
+    console.log('lDepth is: ', lDepth, 'rDepth is: ', rDepth);
+    if (Math.abs(lDepth - rDepth) < 1) {
+      return true;
+    } else {
+      return false;
+    } 
+  }
+
+  let leftBool = isBalanced(bst.left, ++lDepth, rDepth, maxDepth);
+  let rightBool = isBalanced(bst.right, lDepth, ++rDepth, maxDepth);
+
+  if (!leftBool || !rightBool) {
+    return false;
+  } else {
+    return true;
+  }
+  
+}
+
+function rightSide(node) {
   // Base case: node is null, return 0
   if (node === null) {
     return 0;
   }
 
   // Compute the depth of the left, and the depth of the right
-  let lDepth = this._maxDepth(node.left);
-  let rDepth = this._maxDepth(node.right);
+  let lDepth = rightSide(node.left);
+  let rDepth = rightSide(node.right);
 
   // If the depth of the left > right, then left + 1; otherwise right + 1
   if (lDepth > rDepth) {
@@ -270,8 +274,34 @@ function isBalanced(bst) {
   }
 }
 
+function leftSide(node) {
+  // Base case: node is null, return 0
+  if (node === null) {
+    return 0;
+  }
+
+  // Compute the depth of the left, and the depth of the right
+  let lDepth = leftSide(node.left);
+  let rDepth = leftSide(node.right);
+
+  // If the depth of the left > right, then left + 1; otherwise right + 1
+  if (lDepth > rDepth) {
+    return rDepth + 1;
+  } else {
+    return lDepth + 1;
+  }
+}
+
+function compare(node) {
+  let l = leftSide(node);
+  let r = rightSide(node);
+
+  return (Math.abs(l - r) < 2 ? true : false);
+}
+
 const BST = new BinarySearchTree();
 BST.insert(3, 3);
+BST.insert(2,2);
 BST.insert(1, 1);
 BST.insert(4, 4);
 BST.insert(6, 6);
@@ -279,11 +309,15 @@ BST.insert(9, 9);
 BST.insert(2,2);
 BST.insert(5,5);
 BST.insert(7,7);
-// console.log(BST);
-// console.log(BST._maxDepth(BST));
-// console.log(BST._isBalancedDavid(BST));
-// console.log(getRoot(BST));
-// console.log(BST._isBalanced(BST));
-// console.log(BST);
+console.log(BST);
+console.log(BST._maxDepth(BST));
+console.log(BST._isBalancedDavid(BST));
+console.log(getRoot(BST));
+console.log(BST._isBalanced(BST));
+console.log(BST);
 console.log(thirdLargest(BST));
 console.log(thirdLargest(BST));
+console.log(isBalanced(BST));
+console.log(leftSide(BST));
+console.log(compare(BST));
+console.log(rightSide(BST));
