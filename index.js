@@ -205,7 +205,7 @@ function isItBST(bst) {
   }
 }
 
-function findLargest(bst, secondlargest=0, largest=0) {
+function findLargest(bst) {
   // Traverse all the way right until right === null
   // If parent.left is null, return parent.parent
   // return parent.left
@@ -230,30 +230,6 @@ function thirdLargest(bst) {
   bst.insert(largest.value, largest.key);
   bst.insert(seclargest.value, seclargest.key);
   return returnVal.key;
-}
-
-function isBalanced(bst, lDepth=0, rDepth=0, maxDepth=null) {
-  if (maxDepth === null) {
-    maxDepth = bst._maxDepth(bst);
-  }
-  if (bst === null) {
-    console.log('lDepth is: ', lDepth, 'rDepth is: ', rDepth);
-    if (Math.abs(lDepth - rDepth) < 1) {
-      return true;
-    } else {
-      return false;
-    } 
-  }
-
-  let leftBool = isBalanced(bst.left, ++lDepth, rDepth, maxDepth);
-  let rightBool = isBalanced(bst.right, lDepth, ++rDepth, maxDepth);
-
-  if (!leftBool || !rightBool) {
-    return false;
-  } else {
-    return true;
-  }
-  
 }
 
 function rightSide(node) {
@@ -311,13 +287,7 @@ BST.insert(5,5);
 BST.insert(7,7);
 console.log(BST);
 console.log(BST._maxDepth(BST));
-console.log(BST._isBalancedDavid(BST));
 console.log(getRoot(BST));
-console.log(BST._isBalanced(BST));
 console.log(BST);
 console.log(thirdLargest(BST));
-console.log(thirdLargest(BST));
-console.log(isBalanced(BST));
-console.log(leftSide(BST));
 console.log(compare(BST));
-console.log(rightSide(BST));
